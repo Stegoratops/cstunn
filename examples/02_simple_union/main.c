@@ -43,6 +43,7 @@ readfilex(
 {
     FILE *fp = fopen(path, "r");
     cstunn_error_t err;
+    size_t size;
     char *end;
     union simple_union sun = { 0 };
 
@@ -50,10 +51,14 @@ readfilex(
         fprintf(stderr, "Failed to open \"%s\"\n", path);
         exit(1);
     }
-    if (fread(buffer, 1, sizeof(buffer), fp) < 0) {
+    
+    size = fread(buffer, 1, sizeof(buffer) - 1, fp);
+    if (size == 0) {
         fprintf(stderr, "Failed to read \"%s\"\n", path);
         exit(1);
     }
+    buffer[size] = 0;
+
     fclose(fp);
 
     err = cstunn_parse(

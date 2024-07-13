@@ -43,6 +43,7 @@ readfilex(
 {
     FILE *fp = fopen(path, "r");
     cstunn_error_t err;
+    size_t size;
     char *end;
     struct complex_struct cst = { 0 };
 
@@ -50,11 +51,13 @@ readfilex(
         fprintf(stderr, "Failed to open \"%s\"\n", path);
         exit(1);
     }
-    if (fread(buffer, 1, sizeof(buffer), fp) < 0) {
+
+    size = fread(buffer, 1, sizeof(buffer) - 1, fp);
+    if (size == 0) {
         fprintf(stderr, "Failed to read \"%s\"\n", path);
         exit(1);
     }
-    fclose(fp);
+    buffer[size] = 0;
 
     err = cstunn_parse(
         &cst,
