@@ -52,6 +52,9 @@ cstunn_print_error(
     else if (err == (CSTUNN_ERROR_CHAR_UNEXPECTED | '\n')) {
         fprintf(stream, "error: Unexpected newline");
     }
+    else if (err == (CSTUNN_ERROR_CHAR_UNEXPECTED | 0x04)) {
+        fprintf(stream, "error: Unexpected End of File");
+    }
     else if ((err & ~0xFFu) == CSTUNN_ERROR_CHAR_UNEXPECTED) {
         fprintf(stream, "error: Unexpected character ");
         cstunn_printchar(stream, err & 0xFF);
@@ -71,17 +74,23 @@ cstunn_print_error(
     case CSTUNN_ERROR_INVALID_CONSTANT:
         fprintf(stream, "error: Invalid value for constant");
         break;
+    case CSTUNN_ERROR_UNTERMINATED_CHAR_LITERAL:
+        fprintf(stream, "error: Failed to terminate Char-literal");
+        break;
+    case CSTUNN_ERROR_UNTERMINATED_STRING_LITERAL:
+        fprintf(stream, "error: Failed to terminate String-literal");
+        break;
     default:
         break;
     }
     fprintf(stream, "\n");
 
-    if (length > MAXLINELENGTH) {
+    /* if (length > MAXLINELENGTH) {
         p = error_pos - p + MAXLINELENGTH / 2 < length
             ? error_pos - MAXLINELENGTH / 2
             : p + length - MAXLINELENGTH;
         length = MAXLINELENGTH;
-    }
+    } */
 
     fprintf(stream, "%5zu | %.*s\n", line, (int)length, p);
     fprintf(stream, "      | ");

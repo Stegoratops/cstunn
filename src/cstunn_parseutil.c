@@ -180,9 +180,18 @@ cstunn_strtochar(
         res |= t;
         str = iend;
     }
-    while (*str != '\'' && t >= 0);
+    while (
+        *str
+        && *str != '\n'
+        && *str != '\''
+        && t >= 0
+        && res <= INTMAX_MAX >> CHAR_BIT);
 
-    if (t < 0) {
+    if (*str != '\'') {
+        res = -CSTUNN_ERROR_UNTERMINATED_CHAR_LITERAL;
+        goto f_end;
+    }
+    else if (t < 0) {
         res = -t;
         goto f_end;
     }

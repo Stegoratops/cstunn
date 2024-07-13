@@ -229,8 +229,8 @@ cstunn_parse_string(
         ++r_state->v_input;
 
         while (*r_state->v_input != '\"') {
-            if (*r_state->v_input == '\n') {
-                cstunn_parse_throw_error(r_state, CSTUNN_ERROR_CHAR_UNEXPECTED | '\n');
+            if (*r_state->v_input == '\n' || !*r_state->v_input) {
+                cstunn_parse_throw_error(r_state, CSTUNN_ERROR_UNTERMINATED_STRING_LITERAL);
             }
 
             ch = cstunn_esctochar(r_state->v_input, &end);
@@ -273,8 +273,11 @@ cstunn_parse_initlist(
         r_state->specifier_next = r_state->specifier_curr->fchild;
     }
 
+    ++r_state->v_input;
     while (*r_state->v_input != '}') {
-        ++r_state->v_input;
+        if (!*r_state->v_input) {
+            cstunn_parse_throw_error(r_state, CSTUNN_ERROR_CHAR_UNEXPECTED | 0x04);
+        }
         cstunn_parse_initlist_member(r_state);
         skipwhile(r_state->v_input, isspace);
     }
@@ -297,7 +300,7 @@ cstunn_parse_initlist_member(
     skipwhile(r_state->v_input, isspace);
 
     if (*r_state->v_input == '}') {
-
+        /* NOOP */
     }
     else if (
         *r_state->v_input != '.'
@@ -321,6 +324,9 @@ cstunn_parse_initlist_member(
         *r_state->v_input != ','
         && *r_state->v_input != '}') {
         skipwhile(r_state->v_input, isspace);
+        if (!*r_state->v_input) {
+            cstunn_parse_throw_error(r_state, CSTUNN_ERROR_CHAR_UNEXPECTED | 0x04);
+        }
 
         switch (*r_state->v_input) {
         case '.':
@@ -336,6 +342,10 @@ cstunn_parse_initlist_member(
             break;
         }
     }
+
+    skipwhile(r_state->v_input, isspace);
+    if (*r_state->v_input == ',') ++r_state->v_input;
+
 
     r_state->specifier_next = r_state->specifier_curr->next;
 
