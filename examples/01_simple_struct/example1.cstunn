@@ -1,0 +1,19 @@
+/*
+ * It is possible to write anything
+ * outside the brackets. Note however,
+ * that writing brackets, even inside of comments
+ * will result in the parser thinking that it is at
+ * the start of the parsable region
+ */
+#include "simple_struct.inc"
+__ {
+    .a = 10,
+    .b = 02,
+    .c = 0x12,
+    .d = 3.141592657,
+    .name = "Hello, World!",
+}; /* 
+    * This semicolon is added at the end to not trip up the c-compiler
+    * It will be ignored by the parse, since it is beyond the final closing
+    * bracket
+    */

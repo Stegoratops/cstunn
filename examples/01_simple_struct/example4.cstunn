@@ -1,0 +1,8 @@
+/*
+ * This example shows what happens, a char
+ * goes beyond the end of the buffer
+ */
+#include "simple_struct.inc"
+__ {
+    .name = { [20] = 'A' }
+};

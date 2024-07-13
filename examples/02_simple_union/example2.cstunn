@@ -1,0 +1,4 @@
+#include "simple_union.inc"
+__ {
+    .b = 42
+};

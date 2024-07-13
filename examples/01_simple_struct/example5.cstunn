@@ -1,0 +1,12 @@
+/*
+ * Note Comments, while somewhat useful, do not behave
+ * es necessarilly expected
+ * While this is part of the comment, this
+ * {.a = 1, .b = 2, .c = 3, .d = 4, .name = "5"}
+ * will be the result, instead of the values below,
+ * as one may expect
+ */
+#include "simple_struct.inc"
+__ {
+    .a = 6, .b = 7, .c = 8, .d = 9, .name = "10"
+};

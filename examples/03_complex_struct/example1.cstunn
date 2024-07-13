@@ -1,0 +1,13 @@
+#include "complex_struct.inc"
+__ {
+    .an_i = 1,
+    .an_f = 2,
+    .i = 3,
+    .f = 4,
+    .named.i = 5,
+    .named.f = 6,
+    .arr[0].i = 7,
+    .arr[0].f = 8,
+    .arr[1].i = 9,
+    .arr[1].f = 10,
+};

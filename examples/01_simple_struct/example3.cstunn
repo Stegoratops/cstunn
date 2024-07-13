@@ -1,0 +1,8 @@
+/*
+ * This example shows what happens, when the nul-char
+ * goes beyond the end of the buffer
+ */
+#include "simple_struct.inc"
+__ {
+    .name = "01234567890123456789"
+};

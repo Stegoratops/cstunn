@@ -1,0 +1,12 @@
+/*
+ * The values can also be specified in "weird"
+ * ways
+ */
+#include "simple_struct.inc"
+__ {
+    .name = { 'A', 'B', ['\03'] = 'D', 'E', [2] = 'C' },
+    .c = 'D',
+    .d = 0x12.123p3,
+    .b = .2,
+    .a = 12.24
+};

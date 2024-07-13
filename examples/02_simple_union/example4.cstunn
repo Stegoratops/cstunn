@@ -1,0 +1,13 @@
+/*
+ * It is possible to put in multiple values
+ * This will result in the final value to be
+ * the written value
+ * 
+ * Feel free to swap these lines around
+ */
+#include "simple_union.inc"
+__ {
+    .c = "42",
+    .a = 42,
+    .b = 42,
+};
