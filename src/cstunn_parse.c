@@ -78,10 +78,15 @@ cstunn_parse(
     const struct cstunn_named_const *consts)
 {
     struct cstunn_parse_state state = {0};
+    char *begin;
 
-    input = strchr(input, '{');
+    begin = strchr(input, '{');
+    if (!begin) {
+        *end = memchr(input, 0, -1);
+        return CSTUNN_ERROR_CHAR_UNEXPECTED | 0x04;
+    }
 
-    state.v_input = input;
+    state.v_input = begin;
     state.output_buf = o_buf;
     state.specifier_base = state.specifier_curr = specifier;
     state.consts = consts;
